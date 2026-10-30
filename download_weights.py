@@ -49,7 +49,7 @@ for repo,rev,e in items:
     records.append({'file':name,'bytes':size,'sha256':digest,'repo':repo,'revision':rev})
     print('FILE_VERIFIED',name,flush=True)
     for start in range(0,size,chunk):(C/(name.replace('/','_')+f'.{start}')).unlink(missing_ok=True)
-pose=B/'repo/pose/models';pose.mkdir(exist_ok=True)
+pose=B/'repo/pose/models';pose.mkdir(parents=True,exist_ok=True)
 for name in ['dw-ll_ucoco_384.onnx','yolox_l.onnx']:
     if not(pose/name).exists():(pose/name).symlink_to(M/name)
 (B/'weights.json').write_text(json.dumps(records,indent=2));print('WEIGHTS_READY',flush=True)
