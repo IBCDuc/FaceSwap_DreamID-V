@@ -4,7 +4,8 @@ import urllib.request,json,concurrent.futures,hashlib,shutil,time,threading
 B=Path(os.environ.get('FS_ROOT','/data/faceswap/experiments'))/'dreamidv';M=B/'weights';M.mkdir(exist_ok=True);C=B/'download_parts';C.mkdir(exist_ok=True)
 items=[]
 for repo,meta,wanted in [('XuGuo699/DreamID-V','DreamID-V_files.json',['dreamidv.pth','dw-ll_ucoco_384.onnx','yolox_l.onnx']),('Wan-AI/Wan2.1-T2V-1.3B','Wan2.1-T2V-1.3B_files.json',['Wan2.1_VAE.pth','models_t5_umt5-xxl-enc-bf16.pth','config.json','google/umt5-xxl/special_tokens_map.json','google/umt5-xxl/spiece.model','google/umt5-xxl/tokenizer.json','google/umt5-xxl/tokenizer_config.json'])]:
-    data=json.loads((B/meta).read_text())
+    metadata=B/meta if (B/meta).exists() else Path(__file__).resolve().parent/'metadata'/meta
+    data=json.loads(metadata.read_text())
     for entry in data['siblings']:
         if entry['rfilename'] in wanted:items.append((repo,data['sha'],entry))
 chunk=128*1024*1024;tasks=[]
